@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/userRoutes');  // Import user routes
-const employeeRoutes = require('./routes/employeeRoutes');  // Import employee routes
+const userRoutes = require('./routes/user');  // Import user routes
+const employeeRoutes = require('./routes/employee');  // Import employee routes
 
 const app = express();
 app.use(express.json());
