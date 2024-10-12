@@ -114,13 +114,13 @@ app.put(
   
 // delete employees by ID
 app.delete(
-    '/api/v1/emp/employees/:eid',
+    '/api/v1/emp/employees',
     [
       check('eid', 'Invalid Employee ID').isMongoId()
     ],
     handleValidationErrors,
     async (req, res) => {
-      const { eid } = req.params;
+      const { eid } = req.query;
   
       try {
         const deletedEmployee = await Employee.findByIdAndDelete(eid);
@@ -134,5 +134,5 @@ app.delete(
     }
   );
 
-  
+
 module.exports = router;
