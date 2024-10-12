@@ -138,29 +138,46 @@ app.post(
   
 
   // get employees by ID
-  app.get('/api/v1/emp/employees/:eid', async (req, res) => {
-    const { eid } = req.params;
-  
-  if (!mongoose.Types.ObjectId.isValid(eid)) {
-    return res.status(400).json({ message: 'Invalid Employee ID' });
-  }
+  app.get(
+    '/api/v1/emp/employees/:eid',
+    [
+      check('eid', 'Invalid Employee ID').isMongoId()
+    ],
+    handleValidationErrors,
+    async (req, res) => {
+      const { eid } = req.params;
 
-    try {
-      const employee = await Employee.findById(eid);
-      if (!employee) {
-        return res.status(404).json({ message: 'Employee not found' });
+    
+      try {
+        const employee = await Employee.findById(eid);
+        if (!employee) {
+          return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.status(200).json(employee);
+      } catch (err) {
+        res.status(500).json({ message: 'Error fetching employee details', error: err.message });
       }
-      res.status(200).json(employee);
-    } catch (err) {
-      res.status(500).json({ message: 'Error fetching employee details', error: err.message });
     }
-  });
+  );
 
   
   //update employee by ID
-  app.put('/api/v1/emp/employees/:eid', async (req, res) => {
-    const { eid } = req.params;
-    const updates = req.body;
+  app.put(
+    '/api/v1/emp/employees/:eid',
+    [
+      check('eid', 'Invalid Employee ID').isMongoId(),
+      check('first_name', 'First name is required').optional().not().isEmpty(),
+      check('last_name', 'Last name is required').optional().not().isEmpty(),
+      check('email', 'Please include a valid email').optional().isEmail(),
+      check('position', 'Position is required').optional().not().isEmpty(),
+      check('salary', 'Salary must be a number').optional().isNumeric(),
+      check('date_of_joining', 'Date of joining must be a valid date').optional().isDate(),
+      check('department', 'Department is required').optional().not().isEmpty()
+    ],
+    handleValidationErrors,
+    async (req, res) => {
+      const { eid } = req.params;
+      const updates = req.body;
   
     try {
       const updatedEmployee = await Employee.findByIdAndUpdate(eid, updates, { new: true });
@@ -175,20 +192,23 @@ app.post(
 
   
 // delete employees by ID
-app.delete('/api/v1/emp/employees/:eid', async (req, res) => {
-    const { eid } = req.params;
+app.delete(
+    '/api/v1/emp/employees/:eid',
+    [
+      check('eid', 'Invalid Employee ID').isMongoId()
+    ],
+    handleValidationErrors,
+    async (req, res) => {
+      const { eid } = req.params;
   
-    if (!mongoose.Types.ObjectId.isValid(eid)) {
-      return res.status(400).json({ message: 'Invalid Employee ID' });
-    }
-  
-    try {
-      const deletedEmployee = await Employee.findByIdAndDelete(eid);
-      if (!deletedEmployee) {
-        return res.status(404).json({ message: 'Employee not found' });
+      try {
+        const deletedEmployee = await Employee.findByIdAndDelete(eid);
+        if (!deletedEmployee) {
+          return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.status(200).json({ message: 'Employee deleted successfully' });
+      } catch (err) {
+        res.status(500).json({ message: 'Error deleting employee', error: err.message });
       }
-      res.status(200).json({ message: 'Employee deleted successfully' });
-    } catch (err) {
-      res.status(500).json({ message: 'Error deleting employee', error: err.message });
     }
-  });
+  );
