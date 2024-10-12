@@ -97,7 +97,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"first_name\": \"BossMan\",\r\n  \"last_name\": \"John\",\r\n  \"email\": \"Bossman.john@example.com\",\r\n  \"position\": \"CEO\",\r\n  \"salary\": 85000000,\r\n  \"date_of_joining\": \"2023-08-01\",\r\n  \"department\": \"Business\"\r\n}",
+					"raw": "{\r\n  \"first_name\": \"Bossman\",\r\n  \"last_name\": \"haha\",\r\n  \"email\": \"bossman.haha@example.com\",\r\n  \"position\": \"CEO\",\r\n  \"salary\": 8909132,\r\n  \"date_of_joining\": \"2022-08-01\",\r\n  \"department\": \"Business\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -127,7 +127,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/v1/emp/employees/670af67d93622c0033f802a2",
+					"raw": "http://localhost:3000/api/v1/emp/employees/670b0368303d4772b1ff679d",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -138,7 +138,7 @@
 						"v1",
 						"emp",
 						"employees",
-						"670af67d93622c0033f802a2"
+						"670b0368303d4772b1ff679d"
 					]
 				}
 			},
@@ -151,7 +151,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"position\": \"Tech Lead\",\r\n  \"salary\": 1000000\r\n}\r\n",
+					"raw": "{\r\n  \"position\": \"\",\r\n  \"salary\": 1000000\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -159,7 +159,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/v1/emp/employees/670af67d93622c0033f802a2",
+					"raw": "http://localhost:3000/api/v1/emp/employees/670b0368303d4772b1ff679d",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -170,7 +170,7 @@
 						"v1",
 						"emp",
 						"employees",
-						"670af67d93622c0033f802a2"
+						"670b0368303d4772b1ff679d"
 					]
 				}
 			},
@@ -182,7 +182,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/v1/emp/employees/670af9b817a9683275cc66de",
+					"raw": "http://localhost:3000/api/v1/emp/employees?eid=670b0368303d4772b1ff679d",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -192,8 +192,13 @@
 						"api",
 						"v1",
 						"emp",
-						"employees",
-						"670af9b817a9683275cc66de"
+						"employees"
+					],
+					"query": [
+						{
+							"key": "eid",
+							"value": "670b0368303d4772b1ff679d"
+						}
 					]
 				}
 			},

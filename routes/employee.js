@@ -59,32 +59,26 @@ router.post(
 );
 
  // get employees by ID
- app.get(
-    '/api/v1/emp/employees/:eid',
-    [
-      check('eid', 'Invalid Employee ID').isMongoId()
-    ],
-    handleValidationErrors,
-    async (req, res) => {
-      const { eid } = req.params;
-
-    
-      try {
-        const employee = await Employee.findById(eid);
-        if (!employee) {
-          return res.status(404).json({ message: 'Employee not found' });
-        }
-        res.status(200).json(employee);
-      } catch (err) {
-        res.status(500).json({ message: 'Error fetching employee details', error: err.message });
+ router.get('/:eid', [
+    check('eid', 'Invalid Employee ID').isMongoId()
+  ], handleValidationErrors, async (req, res) => {
+    const { eid } = req.params;
+  
+    try {
+      const employee = await Employee.findById(eid);
+      if (!employee) {
+        return res.status(404).json({ message: 'Employee not found' });
       }
+      res.status(200).json(employee);
+    } catch (err) {
+      res.status(500).json({ message: 'Error fetching employee details', error: err.message });
     }
-  );
+  });
 
   
 //update employee by ID
-app.put(
-    '/api/v1/emp/employees/:eid',
+router.put(
+    '/:eid',  
     [
       check('eid', 'Invalid Employee ID').isMongoId(),
       check('first_name', 'First name is required').optional().not().isEmpty(),
@@ -100,21 +94,21 @@ app.put(
       const { eid } = req.params;
       const updates = req.body;
   
-    try {
-      const updatedEmployee = await Employee.findByIdAndUpdate(eid, updates, { new: true });
-      if (!updatedEmployee) {
-        return res.status(404).json({ message: 'Employee not found' });
+      try {
+        const updatedEmployee = await Employee.findByIdAndUpdate(eid, updates, { new: true });
+        if (!updatedEmployee) {
+          return res.status(404).json({ message: 'Employee not found' });
+        }
+        res.status(200).json({ message: 'Employee details updated successfully', employee: updatedEmployee });
+      } catch (err) {
+        res.status(500).json({ message: 'Error updating employee details', error: err.message });
       }
-      res.status(200).json({ message: 'Employee details updated successfully', employee: updatedEmployee });
-    } catch (err) {
-      res.status(500).json({ message: 'Error updating employee details', error: err.message });
     }
-  });
-
+  );
   
 // delete employees by ID
-app.delete(
-    '/api/v1/emp/employees',
+router.delete(
+    '/',  // No need for :eid, since you're using a query parameter
     [
       check('eid', 'Invalid Employee ID').isMongoId()
     ],
@@ -134,5 +128,5 @@ app.delete(
     }
   );
 
-
+  
 module.exports = router;
